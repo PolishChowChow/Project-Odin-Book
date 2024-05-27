@@ -1,0 +1,28 @@
+1 User -> Many Requests (Users)
+1 User -> Many Posts
+1 Post -> Many comments
+Many comments -> Many comments ?
+One post -> Many likes
+One comment - Many likes
+Posts of the logged user and following
+
+First name
+last name
+age
+mail
+username
+password
+
+Request Status
+UserId
+UserId (destination)
+Type (Unaccepted, Blocked, Accepted)
+
+CONTENT
+type (POST, COMMENT)
+photo?
+author (user id)
+DESCRIPTION
+likes [userid]
+[CONTENT]
+
