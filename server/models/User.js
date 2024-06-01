@@ -10,15 +10,16 @@ const userSchema = new Schema({
     },
     email: { 
         ...STRING_TYPE,
-        max: 50,
+        maxLength: 50,
     },
     username: {
         ...STRING_TYPE,
+        maxLength: 50,
         unique: true,
     },
     password: {
         ...STRING_TYPE,
-        max: 300,
+        maxLength: 300,
     },
 })
 

@@ -1,8 +1,10 @@
+const mongoose = require("mongoose")
+const Schema = mongoose.Schema;
 exports.STRING_TYPE = {
     type: String,
     required: true,
-    min: 3,
-    max: 30,
+    minLength: 3,
+    maxLength: 30,
 }
 exports.FOREIGN_KEY = {
     type:  Schema.Types.ObjectId,
