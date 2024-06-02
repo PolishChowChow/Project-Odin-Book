@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
+const { Schema, model} = require("mongoose");
 const { STRING_TYPE } = require("./dataTypes");
-const Schema = mongoose.Schema;
+
 const userSchema = new Schema({
     first_name: STRING_TYPE,
     last_name: STRING_TYPE,
@@ -18,10 +18,10 @@ const userSchema = new Schema({
         maxLength: 300,
         required: false,
     },
-    authType: {
-        type: String,
-        enum: ["locale","google","facebook"],
-    },
+    authMethods: [{
+        type: Schema.Types.ObjectId,
+        ref: "auth"
+    }],
     authId: {
         type: String,
         required: false,
@@ -32,5 +32,5 @@ const userSchema = new Schema({
     }
 })
 
-const User = mongoose.model("user", userSchema)
+const User = model("user", userSchema)
 module.exports = User;

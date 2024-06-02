@@ -48,12 +48,14 @@ exports.registerController = (req, res, next) => {
           error: err,
         });
       } else {
+        
         const user = new User({
           first_name: firstName,
           last_name: lastName,
           email: email,
           username: username,
           password: hash,
+          authMethods: []
         });
         await user.save();
         const jwtToken = jwt.sign({user_id: user.id}, process.env.JWT_BUFFER, {

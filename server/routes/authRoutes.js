@@ -101,6 +101,15 @@ authRouter.get(
     successRedirect: "/auth/success",
   })
 );
+
+authRouter.get("/verify_user/facebook", passport.authenticate("facebook"));
+authRouter.get(
+  "/verify_user/facebook/callback",
+  passport.authenticate("facebook", {
+    failureRedirect: "/auth/failure",
+    successRedirect: "/auth/success",
+  })
+);
 authRouter.get("/success", authSuccess);
 authRouter.get("/failure", authFailure);
 module.exports = authRouter;

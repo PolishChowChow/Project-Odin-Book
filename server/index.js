@@ -9,13 +9,17 @@ const User = require("./models/User");
 
 const session = require("express-session");
 const googleStrategy = require("./controllers/googleStrategy");
+const facebookStrategy = require("./controllers/facebookStrategy")
+mongoose.connect(process.env.URL, {
+  dbName: process.env.DB_NAME,
+});
 app.use(session({
   secret: process.env.SESSION_SECRET,
 }))
 app.use(passport.initialize());
 app.use(passport.session())
 passport.use(googleStrategy);
-
+passport.use(facebookStrategy)
 passport.serializeUser((user, done) => {
   done(null, user.id);
 });
@@ -25,9 +29,7 @@ passport.deserializeUser(async (id, done) => {
   done(null, user);
 });
 
-mongoose.connect(process.env.URL, {
-  dbName: process.env.DB_NAME,
-});
+
 app.use(
   express.urlencoded({
     extended: true,
