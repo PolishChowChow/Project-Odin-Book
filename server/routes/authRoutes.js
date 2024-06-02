@@ -4,10 +4,13 @@ const {
   loginController,
   registerController,
   authController,
+  authSuccess,
+  authFailure,
 } = require("../controllers/authController");
 const User = require("../models/User");
 const authRouter = express.Router();
-const passingValidationErrors = require("../controllers/passingValidationErrors")
+const passingValidationErrors = require("../controllers/passingValidationErrors");
+const passport = require("passport");
 
 authRouter.post(
   "/login",
@@ -49,14 +52,6 @@ authRouter.post(
         max: 30,
       })
       .withMessage("Last name should be from 3 to 30 characters long"),
-    body("age")
-      .notEmpty()
-      .withMessage("Age cannot be empty")
-      .isInt({
-        min: 7,
-        max: 200,
-      })
-      .withMessage("Age should be a number from 8 to 199"),
     body("email")
       .trim()
       .notEmpty()
@@ -91,7 +86,21 @@ authRouter.post(
   passingValidationErrors,
   registerController
 );
-
 authRouter.post("/verify_user", authController);
-
+authRouter.get(
+  "/verify_user/google",
+  passport.authenticate("google", {
+    scope: ["profile", "email"],
+    session: false,
+  })
+);
+authRouter.get(
+  "/verify_user/google/callback",
+  passport.authenticate("google", {
+    failureRedirect: "/auth/failure",
+    successRedirect: "/auth/success",
+  })
+);
+authRouter.get("/success", authSuccess);
+authRouter.get("/failure", authFailure);
 module.exports = authRouter;
