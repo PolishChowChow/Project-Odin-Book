@@ -6,7 +6,7 @@ const threadSchema = new Schema({
         ...FOREIGN_KEY,
         ref: 'user'
     },
-    threadType: {
+    type: {
         type: String,
         enum: ['post', 'comment'],
         required: true,
@@ -25,6 +25,11 @@ const threadSchema = new Schema({
             ...FOREIGN_KEY,
             ref: 'thread'
         }]
-    ]
+    ],
+    createdAt: {
+        type: Date,
+        required: true,
+    }
 })
 const Thread = mongoose.model("thread", threadSchema)
+module.exports = Thread

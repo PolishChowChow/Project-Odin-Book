@@ -7,9 +7,9 @@ const GoogleStrategy = require("passport-google-oauth20").Strategy;
 
 const googleStrategy = new GoogleStrategy(
     {
-      clientID: process.env.CLIENT_ID,
-      clientSecret: process.env.CLIENT_SECRET,
-      callbackURL: process.env.CALLBACK_URL,
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL: process.env.GOOGLE_CALLBACK_URL,
     },
     async(_, _2, profile, done) => {
       if(!profile){

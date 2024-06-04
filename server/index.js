@@ -9,12 +9,16 @@ const User = require("./models/User");
 
 const session = require("express-session");
 const googleStrategy = require("./controllers/googleStrategy");
-const facebookStrategy = require("./controllers/facebookStrategy")
+const facebookStrategy = require("./controllers/facebookStrategy");
+const threadRouter = require("./routes/threadRoutes");
+mongoose.set('strictPopulate', false);
 mongoose.connect(process.env.URL, {
   dbName: process.env.DB_NAME,
 });
 app.use(session({
   secret: process.env.SESSION_SECRET,
+  resave: true,
+  saveUninitialized: false,
 }))
 app.use(passport.initialize());
 app.use(passport.session())
@@ -38,7 +42,7 @@ app.use(
 
 app.use(cookieParser());
 app.use("/auth", authRouter);
-
+app.use("/threads", threadRouter)
 app.listen(process.env.PORT, () => {
   console.log(`server working on http://127.0.0.1:${process.env.PORT}`);
 });
