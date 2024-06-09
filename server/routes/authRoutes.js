@@ -6,10 +6,11 @@ const {
   authController,
   authSuccess,
   authFailure,
+  authorize,
 } = require("../controllers/authController");
 const User = require("../models/User");
 const authRouter = express.Router();
-const passingValidationErrors = require("../controllers/passingValidationErrors");
+const passingValidationErrors = require("../utils/passingValidationErrors");
 const passport = require("passport");
 
 authRouter.post(
@@ -86,7 +87,9 @@ authRouter.post(
   passingValidationErrors,
   registerController
 );
-authRouter.post("/verify_user", authController);
+authRouter.get("/verify_user", authorize ,(req, res, next) => {
+   res.redirect("/auth/success")
+})
 authRouter.get(
   "/verify_user/google",
   passport.authenticate("google", {

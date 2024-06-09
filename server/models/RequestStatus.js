@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { FOREIGN_KEY } = require("./dataTypes");
 const Schema = mongoose.Schema;
-const userSchema = new Schema({
+const requestSchema = new Schema({
     senderId: FOREIGN_KEY,
     destinationId: FOREIGN_KEY,
     status: {
@@ -10,5 +10,5 @@ const userSchema = new Schema({
     }
 })
 
-const Request = mongoose.model("user", userSchema)
-module.exports = Request;
+const RequestStatus = mongoose.model("request", requestSchema)
+module.exports = RequestStatus;

@@ -8,7 +8,7 @@ const {
 } = require("../controllers/threadController");
 const threadRouter = express.Router();
 const { body } = require("express-validator");
-const passingValidationErrors = require("../controllers/passingValidationErrors");
+const passingValidationErrors = require("../utils/passingValidationErrors");
 threadRouter.get("/", postsFromManyOwners);
 threadRouter.get("/:threadId", getSpecificThread);
 threadRouter.post(

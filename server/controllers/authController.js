@@ -22,17 +22,11 @@ exports.loginController = async (req, res, next) => {
         error: err,
       });
     }
-    const statusCode = result === true ? 200 : 422;
-    const jwtToken = jwt.sign({user_id: user.id}, process.env.JWT_BUFFER, {
-      expiresIn: '48h'
-    })
-    res.cookie('token', jwtToken, {
-      httpOnly: true,
-      secure: true,
-      sameSite: 'strict',
-      maxAge: 1000 * 60 * 60 * 2,
-    } )
-    return res.status(statusCode).json({
+    if(!result){
+      return res.sendStatus(422)
+    }
+    req.session.userId = user.id
+    return res.status(200).json({
         user
     });
   });
@@ -58,15 +52,7 @@ exports.registerController = (req, res, next) => {
           authMethods: []
         });
         await user.save();
-        const jwtToken = jwt.sign({user_id: user.id}, process.env.JWT_BUFFER, {
-          expiresIn: '48h'
-        })
-        res.cookie('token', jwtToken, {
-          httpOnly: true,
-          secure: true,
-          sameSite: 'strict',
-          maxAge: 1000 * 60 * 60 * 2,
-        } )
+        req.session.userId = user.id
         return res.status(200).json({
           user,
         });
@@ -76,6 +62,7 @@ exports.registerController = (req, res, next) => {
 };
 
 exports.authSuccess = (req, res, next) => {
+    req.session.userId = req.user.id
     return res.status(200).json({
       user: req.user
     })
@@ -85,6 +72,22 @@ exports.authFailure = (req, res, next) => {
     error: "authorization failed"
   })
 }
-exports.authController = (req, res, next) => {
-  res.send("authorized");
-};
+
+exports.logout = (req, res, next) => {
+  req.session.destroy((error) => {
+    if(error){
+      return res.status(500).json({
+        err: "Error logging out"
+      })
+    }
+    else{
+      return res.sendStatus(200)
+    }
+  })
+}
+exports.authorize = (req, res, next) => {
+  if(!req.session.userId){
+    return res.sendStatus(401)
+  }
+  next();
+}

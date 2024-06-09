@@ -24,7 +24,7 @@ exports.postsFromManyOwners = async (req, res, next) => {
   }
   const groupedThreads = threads.filter((thread) => {
     console.log(thread.creatorId.toString());
-    if (req.params.id.includes(thread.creatorId.toString())) {
+    if (req.session.userId.includes(thread.creatorId.toString())) {
       return thread;
     }
   });
