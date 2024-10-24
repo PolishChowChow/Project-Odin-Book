@@ -4,6 +4,8 @@ import FormInput from "../components/Controls/FormInput";
 import CustomLink from "../components/Controls/CustomLink";
 
 type RegisterDataType = {
+    firstName: string;
+    lastName: string;
     email: string;
     username: string;
     password: string;    
@@ -14,6 +16,8 @@ type RegisterFormDataType = {
 } & RegisterDataType
 
 const initialDataType:RegisterFormDataType = {
+    firstName: "",
+    lastName: "",
     email: "",
     username: "",
     password: "",    
@@ -23,11 +27,10 @@ export default function RegisterPage() {
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
   };
-
   const [formData, setFormData] = useState<RegisterFormDataType>(initialDataType);
+
   const handleChange = (e:ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
-    console.log(id, value)
     setFormData(prevFormData => {
         return {
             ...prevFormData,
@@ -35,7 +38,6 @@ export default function RegisterPage() {
         }
     })
   }
-
   return (
     <div className="h-lvh flex flex-col">
       <header>
