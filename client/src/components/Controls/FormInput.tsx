@@ -1,10 +1,10 @@
 import { InputHTMLAttributes, useEffect, useState } from "react";
 import TextErrorElement from "../Error/TextErrorElement";
 type FormInputProps = {
-  // errorMessage: string;
+  errorMessage: string;
 } & InputHTMLAttributes<HTMLInputElement>;
 
-export default function FormInput({ id, type, ...props }: FormInputProps) {
+export default function FormInput({ id, type, errorMessage, ...props }: FormInputProps) {
   const [isPasswordType, setIsPasswordType] = useState(true);
   const toggleType = () => {
     setIsPasswordType((prevPasswordType) => !prevPasswordType);
@@ -15,7 +15,7 @@ export default function FormInput({ id, type, ...props }: FormInputProps) {
 
   return (
     <>
-      <label htmlFor={id} className="relative">
+      <label htmlFor={id} className="relative w-64">
         <input
           type={`${isPasswordType ? type : "text"}`}
           id={id}
@@ -30,7 +30,7 @@ export default function FormInput({ id, type, ...props }: FormInputProps) {
         >
           {isPasswordType ? "show" : "hide"}
         </button>
-        <TextErrorElement message="" />
+        <TextErrorElement message={errorMessage} className="text-sm"/>
       </label>
     </>
   );
