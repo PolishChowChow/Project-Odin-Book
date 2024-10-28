@@ -1,9 +1,11 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, Key, useState } from "react";
 import Button from "../components/Controls/Button";
 import FormInput from "../components/Controls/FormInput";
 import CustomLink from "../components/Controls/CustomLink";
 import fieldValidator from "../validators/fieldValidators/fieldValidator";
 import isConfirmPasswordCorrect from "../validators/basicValidators/isConfirmPasswordCorrect";
+import Header from "../components/StructureElements/Header";
+import Footer from "../components/StructureElements/Footer";
 
 type RegisterDataType = {
   firstName: string;
@@ -33,7 +35,6 @@ export default function RegisterPage() {
     useState<RegisterFormDataType>(initialDataType);
   const [formValidationResult, setFormValidationResult] =
     useState<RegisterFormDataType>(initialDataType);
-
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
     setFormData((prevFormData) => {
@@ -46,15 +47,14 @@ export default function RegisterPage() {
 
   const handleBlur = (e: ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
-    if(id === "confirmPassword"){
+    if (id === "confirmPassword") {
       setFormValidationResult((prevFormValidationResult) => {
         return {
           ...prevFormValidationResult,
-          [id]: isConfirmPasswordCorrect(value, formData.password)
-        }
-      })
-    }
-    else{
+          [id]: isConfirmPasswordCorrect(value, formData.password),
+        };
+      });
+    } else {
       setFormValidationResult((prevFormValidationResult) => {
         return {
           ...prevFormValidationResult,
@@ -65,9 +65,7 @@ export default function RegisterPage() {
   };
   return (
     <div className="h-lvh flex flex-col">
-      <header>
-        <h1>Logo</h1>
-      </header>
+      <Header />
       <main className="flex-1 flex flex-col justify-center items-center text-md">
         <form
           onSubmit={onSubmit}
@@ -147,7 +145,7 @@ export default function RegisterPage() {
           </CustomLink>
         </p>
       </main>
-      <footer>Footer </footer>
+      <Footer />
     </div>
   );
 }
