@@ -1,5 +1,6 @@
 import { createBrowserRouter, Outlet } from "react-router-dom";
-import RegisterPage from "../pages/RegisterPage";
+import RegisterPage from "../pages/AuthPages/RegisterPage/RegisterPage";
+import AuthPageFrame from "../pages/AuthPages/AuthPageFrame";
 
 const router = createBrowserRouter([
   {
@@ -8,7 +9,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/register",
-    element: <RegisterPage />,
+    element: <AuthPageFrame children={<RegisterPage />} />,
   },
   {
     path: "/",
