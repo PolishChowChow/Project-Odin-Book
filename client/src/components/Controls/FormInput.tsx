@@ -9,9 +9,6 @@ export default function FormInput({ id, type, errorMessage, ...props }: FormInpu
   const toggleType = () => {
     setIsPasswordType((prevPasswordType) => !prevPasswordType);
   };
-  useEffect(()=>{
-    console.log(props.value)
-  },[props.value])
 
   return (
     <>

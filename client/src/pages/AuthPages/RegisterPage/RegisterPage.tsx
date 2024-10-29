@@ -26,9 +26,7 @@ const initialDataType: RegisterFormDataType = {
   confirmPassword: "",
 };
 export default function RegisterPage() {
-  const onSubmit = (e: FormEvent) => {
-    e.preventDefault();
-  };
+  
   const [formData, setFormData] =
     useState<RegisterFormDataType>(initialDataType);
   const [formValidationResult, setFormValidationResult] =
@@ -43,23 +41,49 @@ export default function RegisterPage() {
     });
   };
 
-  const handleBlur = (e: ChangeEvent<HTMLInputElement>) => {
-    const { id, value } = e.target;
+  const onSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    let error = false;
+    Object.keys(formData).map((key) => {
+      const fieldKey =  key as keyof RegisterFormDataType
+      if(validateField(fieldKey, formData[fieldKey])){
+        error = true;
+      }
+    })
+    if(error){
+      return;
+    }
+    alert("success")
+  };
+
+  const validateField = (id: string, value: string) => {
+    let error = false;
+    let validationResult: string;
     if (id === "confirmPassword") {
+      validationResult = isConfirmPasswordCorrect(value, formData.password)
+      error = validationResult === "" ? false : true;
       setFormValidationResult((prevFormValidationResult) => {
         return {
           ...prevFormValidationResult,
-          [id]: isConfirmPasswordCorrect(value, formData.password),
+          [id]: validationResult
         };
       });
     } else {
+      validationResult = fieldValidator(id, value)
+      error = validationResult === "" ? false : true;
       setFormValidationResult((prevFormValidationResult) => {
         return {
           ...prevFormValidationResult,
-          [id]: fieldValidator(id, value),
+          [id]: validationResult
         };
       });
     }
+    return error
+  }
+
+  const handleBlur = (e: ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = e.target;
+    validateField(id, value)
   };
   return (
     <main className="flex-1 flex flex-col justify-center items-center text-md">
